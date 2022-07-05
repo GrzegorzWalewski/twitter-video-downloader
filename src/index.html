@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<p id="message"></p>
+<input type="text" id="link">
+<button id="download">Pobierz</button>
+<a href="#" id="result">Download your video</a>
+<script>
+    window.onload = function () {
+        const xhttp = new XMLHttpRequest();
+        xhttp.responseType = 'json';
+        message = document.getElementById('message');
+        xhttp.onload = function() {
+            if (this.response.status === 'success') {
+                message.style.color = 'green';
+            } else {
+                message.style.color = 'red';
+            }
+            message.innerText = this.response.message;
+            document.getElementById("result").href = this.response.url;
+        }
+        button = document.getElementById('download');
+
+        button.onclick = function () {
+            link = document.getElementById('link').value;
+            xhttp.open("POST", "get_data.php");
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("url=" + link);
+        }
+    }
+</script>
+</body>
+</html>
